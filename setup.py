@@ -71,7 +71,7 @@ setup(
     long_description_content_type='text/markdown',
     url="https://githib.com/Apkawa/django-snapshot-field",
     author="Apkawa",
-    author_email='Apkawa',
+    author_email='apkawa@gmail.com',
     packages=packages,
     install_requires=['six'],
     zip_safe=False,
