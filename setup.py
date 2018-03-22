@@ -24,6 +24,7 @@ version = get_version("snapshot_field", "__init__.py")
 if sys.argv[-1] == 'publish':
     try:
         import wheel
+
         print("Wheel version: ", wheel.__version__)
     except ImportError:
         print('Wheel library missing. Please run "pip install wheel"')
@@ -38,6 +39,17 @@ if sys.argv[-1] == 'tag':
     os.system("git push --tags")
     sys.exit()
 
+if sys.argv[1] == 'bumpversion':
+    print("bumpversion")
+    try:
+        part = sys.argv[2]
+    except IndexError:
+        part = 'patch'
+
+    os.system("bumpversion --no-tag --config-file setup.cfg %s" % part)
+    os.system("git push --tags")
+    sys.exit()
+
 __doc__ = """"""
 
 project_name = 'django-snapshot-field'
@@ -47,6 +59,7 @@ ROOT = os.path.dirname(__file__)
 
 def read(fname):
     return open(os.path.join(ROOT, fname)).read()
+
 
 packages = [package for package in find_packages() if package.startswith(app_name)]
 print(packages)
