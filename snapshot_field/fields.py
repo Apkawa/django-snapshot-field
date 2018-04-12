@@ -65,6 +65,8 @@ class SnapshotModelField(models.TextField):
         """
 
         kwargs['editable'] = False
+        if isinstance(models, str):
+            models = [models]
         self.models = models
         self.serializer_kwargs = kwargs.pop('serializer_kwargs', None) or {}
 
@@ -125,7 +127,7 @@ class SnapshotModelField(models.TextField):
             fields = opts.get('fields')
 
         if not fields:
-            fields = get_fields_from_model(model_class)
+            fields = list(get_fields_from_model(model_class).keys())
 
         trans_field_map = self.get_translated_fields(model, fields)
         # fields = list(set(fields) - set(trans_field_map))
