@@ -68,6 +68,7 @@ class SnapshotModelField(models.TextField):
         if isinstance(models, str):
             models = [models]
         self.models = models
+        self.depth = kwargs.pop('depth', 0)
         self.serializer_kwargs = kwargs.pop('serializer_kwargs', None) or {}
 
         super(SnapshotModelField, self).__init__(*args, **kwargs)
@@ -156,7 +157,6 @@ class SnapshotModelField(models.TextField):
         self.validate_snapshot_model(value._meta.concrete_model)
 
     def get_db_prep_value(self, value, connection, prepared=False):
-
         if value and not isinstance(value, models.Model):
             raise ValueError("Need model instance")
 
