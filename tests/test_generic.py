@@ -4,7 +4,7 @@ import json
 from django.db import models
 
 from snapshot_field import SnapshotModelField
-from snapshot_field.fields import get_model_class
+from snapshot_field.utils import get_model_class
 
 from .models import Example
 

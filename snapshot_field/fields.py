@@ -5,13 +5,13 @@ import six
 import copy
 from collections import defaultdict
 
-from django.apps import apps
 from django.conf import settings
 from django.core import serializers
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from snapshot_field.utils import noop_func, get_model_class, get_fields_from_model
 from .compat import get_label_lower
 
 translator = None
@@ -26,26 +26,6 @@ try:
     from polymorphic.models import PolymorphicModel
 except ImportError:
     pass
-
-
-def noop_func(*a, **kw):
-    return None
-
-
-def get_model_class(model):
-    if isinstance(model, six.text_type):
-        model = apps.get_model(*model.split('.'))
-    return model
-
-
-def get_fields_from_model(model):
-    opts = model._meta.concrete_model._meta
-    fields = {}
-    for f in opts.fields:
-        # if isinstance(f, RelatedField):
-        #     continue
-        fields[f.name] = f
-    return fields
 
 
 class SnapshotModelField(models.TextField):
