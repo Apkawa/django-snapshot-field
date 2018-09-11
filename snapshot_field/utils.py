@@ -5,6 +5,7 @@ import six
 from django.apps import apps
 from django.conf import settings
 from django.core import serializers
+from django.core.serializers.json import DjangoJSONEncoder
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -66,14 +67,14 @@ def serialize_object(obj, fields=None, refs=None):
 
 
 def serialize_object_json(obj, fields=None, refs=None):
-    return json.dumps(serialize_object(obj, fields=fields, refs=refs))
+    return json.dumps(serialize_object(obj, fields=fields, refs=refs), cls=DjangoJSONEncoder)
 
 
 def _deserialize_object(value, serializer_kwargs=None):
     serializer_kwargs = serializer_kwargs or {}
     try:
         deser = list(serializers.deserialize(
-            'python', value, **serializer_kwargs))[0]
+            'python', [value], **serializer_kwargs))[0]
         instance = deser.object
         instance.save_base = noop_func
         instance.save = noop_func
@@ -87,7 +88,7 @@ def deserialize_object(value, serializer_kwargs=None):
     if isinstance(value, list):
         return [deserialize_object(v) for v in value]
     refs = value.pop('refs', None) or {}
-    obj = _deserialize_object([value], serializer_kwargs)
+    obj = _deserialize_object(value, serializer_kwargs)
     for name, ref_data in refs.items():
         sub_obj = deserialize_object(ref_data, serializer_kwargs)
         setattr(obj, name, sub_obj)

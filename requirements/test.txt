@@ -4,3 +4,6 @@ pytest-pythonpath
 pytest-flake8
 pytest-cov
 mock
+
+# Thrid party test
+django-measurement>=3.0.0
