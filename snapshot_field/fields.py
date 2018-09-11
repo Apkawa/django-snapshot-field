@@ -1,17 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-import six
 
 import copy
-from collections import defaultdict
 
-from django.conf import settings
-from django.core import serializers
+import six
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.utils.translation import ugettext_lazy as _
 
-from snapshot_field.utils import noop_func, get_model_class, get_fields_from_model
+from snapshot_field.utils import get_model_class, get_fields_from_model, get_translated_fields, \
+    deserialize_object_json, serialize_object_json
 from .compat import get_label_lower
 
 translator = None
@@ -38,7 +35,7 @@ class SnapshotModelField(models.TextField):
                  *args, **kwargs):
         """
 
-        :param models: list of models or list of tuple[Model, {'fields': ['id']}]
+        :param models: list of models or list of tuple[Model, {'fields': ['id'], 'refs': ['ref']}]
         :param immutable:
         :param args:
         :param kwargs:
@@ -59,11 +56,15 @@ class SnapshotModelField(models.TextField):
             return model_map
 
         model_map = {}
-        if models:
+        if self.models:
             for model in self.models:
                 opts = {}
                 if isinstance(model, (tuple, list)):
                     model, opts = model
+                model_parts = model.split('.')
+                if len(model_parts) == 1:
+                    model = '.'.join(
+                        [self.model._meta.app_label] + model_parts)
                 model_class = get_model_class(model)
                 label_lower = get_label_lower(model_class._meta)
                 model_map[label_lower] = {
@@ -82,41 +83,28 @@ class SnapshotModelField(models.TextField):
         except KeyError:
             return None
 
-    def get_translated_fields(self, model, fields):
-        if not translator:
-            return {}
-        try:
-            opts = translator.get_options_for_model(model)
-        except NotRegistered:
-            return {}
-
-        trans_fields = defaultdict(list)
-        for field_name in opts.fields.keys():
-            if field_name not in fields:
-                continue
-            for lang, _ in settings.LANGUAGES:
-                trans_fields[field_name].append(
-                    build_localized_fieldname(field_name, lang)
-                )
-        return dict(trans_fields)
-
-    def get_snapshot_fields(self, model):
+    def get_snapshot_opts(self, model):
         model_class = get_model_class(model)
         opts = self._get_model_opts(model_class)
         fields = None
+        refs = None
         if opts:
             fields = opts.get('fields')
+            refs = opts.get('refs')
 
         if not fields:
             fields = list(get_fields_from_model(model_class).keys())
 
-        trans_field_map = self.get_translated_fields(model, fields)
+        trans_field_map = get_translated_fields(model, fields)
         # fields = list(set(fields) - set(trans_field_map))
         map(fields.extend, trans_field_map.values())
-        return list(set(fields))
+        return dict(
+            fields=list(set(fields)),
+            refs=refs,
+        )
 
-    def contribute_to_class(self, cls, name):
-        super(SnapshotModelField, self).contribute_to_class(cls, name)
+    def contribute_to_class(self, cls, name, *args, **kwargs):
+        super(SnapshotModelField, self).contribute_to_class(cls, name, *args, **kwargs)
         # Add our descriptor to this field in place of of the normal attribute
         setattr(cls, self.name, ProxyFieldDescriptor(self.name))
 
@@ -146,35 +134,23 @@ class SnapshotModelField(models.TextField):
             # maybe serialized
             return value
         model_class = value._meta.concrete_model
-        fields = self.get_snapshot_fields(model_class)
+        opts = self.get_snapshot_opts(model_class)
         if PolymorphicModel is not None:
             if isinstance(value, PolymorphicModel):
                 # hack for polymorphic model
                 model_class._meta = copy.copy(
                     model_class._meta)
                 model_class._meta.local_fields = model_class._meta.fields
-        return serializers.serialize('json', [value], fields=fields, **self.serializer_kwargs)
-
-    def _deserialize(self, value):
-        try:
-            deser = list(serializers.deserialize(
-                'json', value, **self.serializer_kwargs))[0]
-            instance = deser.object
-            instance.save_base = noop_func
-            instance.save = noop_func
-            instance.delete = noop_func
-            return instance
-        except ValueError:
-            raise ValidationError(_("Enter valid JSON"))
+        return serialize_object_json(value, **opts)
 
     def from_db_value(self, value, expression, connection, context):
         if value is None:
             return value
-        return self._deserialize(value)
+        return deserialize_object_json(value)
 
     def to_python(self, value):
         if isinstance(value, six.string_types):
-            self._deserialize(value)
+            deserialize_object_json(value)
         return value
 
 

@@ -65,8 +65,8 @@ def serialize_object(obj, fields=None, refs=None):
     return ser_obj
 
 
-def serialize_object_json(obj, depth=0, fields=None):
-    return json.dumps(serialize_object(obj, depth=depth, fields=fields))
+def serialize_object_json(obj, fields=None, refs=None):
+    return json.dumps(serialize_object(obj, fields=fields, refs=refs))
 
 
 def _deserialize_object(value, serializer_kwargs=None):
