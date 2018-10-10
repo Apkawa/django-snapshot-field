@@ -150,7 +150,7 @@ class SnapshotModelField(models.TextField):
 
     def to_python(self, value):
         if isinstance(value, six.string_types):
-            deserialize_object_json(value)
+            return deserialize_object_json(value)
         return value
 
 
