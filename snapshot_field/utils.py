@@ -7,6 +7,7 @@ from django.conf import settings
 from django.core import serializers
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core.exceptions import ValidationError
+from django.core.serializers.python import _get_model
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
@@ -70,9 +71,20 @@ def serialize_object_json(obj, fields=None, refs=None):
     return json.dumps(serialize_object(obj, fields=fields, refs=refs), cls=DjangoJSONEncoder)
 
 
+def prepare_object(value):
+    # Fix and prepare object before deserialization
+    _Model = _get_model(value['model'])
+    fields = get_fields_from_model(_Model)
+    for _field in list(value['fields'].keys()):
+        if _field not in fields:
+            del value['fields'][_field]
+    return value
+
+
 def _deserialize_object(value, serializer_kwargs=None):
     serializer_kwargs = serializer_kwargs or {}
     try:
+        value = prepare_object(value)
         deser = list(serializers.deserialize(
             'python', [value], **serializer_kwargs))[0]
         instance = deser.object

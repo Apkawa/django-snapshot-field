@@ -11,6 +11,7 @@ class Example(models.Model):
 
 class ExampleReference(models.Model):
     name = models.CharField(max_length=20)
+    long_name = models.CharField(max_length=20)
 
     ref = models.ForeignKey(Example)
 
