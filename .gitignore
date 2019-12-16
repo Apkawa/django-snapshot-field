@@ -2,6 +2,7 @@ tmp/
 .idea/
 .pytest_cache/
 *.py[cod]
+Pipfile*
 
 # C extensions
 *.so

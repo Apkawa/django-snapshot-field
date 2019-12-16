@@ -59,9 +59,7 @@ def serialize_object(obj, fields=None, refs=None):
             sub_fields = field_map.get(f)
             sub_refs = refs_map.get(f)
             if n_obj:
-                refs[f] = serialize_object(n_obj,
-                    fields=sub_fields,
-                    refs=sub_refs)
+                refs[f] = serialize_object(n_obj, fields=sub_fields, refs=sub_refs)
 
     ser_obj['refs'] = refs
     return ser_obj
@@ -148,7 +146,7 @@ def get_translated_fields(model, fields):
     for field_name in opts.fields.keys():
         if field_name not in fields:
             continue
-        for lang, _ in settings.LANGUAGES:
+        for lang, _s in settings.LANGUAGES:
             trans_fields[field_name].append(
                 build_localized_fieldname(field_name, lang)
             )

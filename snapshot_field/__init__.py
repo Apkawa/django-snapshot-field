@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from .fields import SnapshotModelField
-from . import monkey
+from . import monkey  # noqa
+
+__all__ = ['SnapshotModelField']
 
 __version__ = '0.2.0'
 

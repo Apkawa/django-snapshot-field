@@ -13,14 +13,14 @@ from .compat import get_label_lower
 
 translator = None
 try:
-    from modeltranslation.translator import translator, NotRegistered
-    from modeltranslation.utils import build_localized_fieldname
+    from modeltranslation.translator import translator, NotRegistered # noqa
+    from modeltranslation.utils import build_localized_fieldname # noqa
 except ImportError:
     pass
 
 PolymorphicModel = None
 try:
-    from polymorphic.models import PolymorphicModel
+    from polymorphic.models import PolymorphicModel # noqa
 except ImportError:
     pass
 
@@ -143,7 +143,7 @@ class SnapshotModelField(models.TextField):
                 model_class._meta.local_fields = model_class._meta.fields
         return serialize_object_json(value, **opts)
 
-    def from_db_value(self, value, expression, connection, context):
+    def from_db_value(self, value, *args, **kwargs):
         if value is None:
             return value
         return deserialize_object_json(value)

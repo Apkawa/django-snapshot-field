@@ -13,13 +13,13 @@ class ExampleReference(models.Model):
     name = models.CharField(max_length=20)
     long_name = models.CharField(max_length=20)
 
-    ref = models.ForeignKey(Example)
+    ref = models.ForeignKey(Example, on_delete=models.CASCADE)
 
 
 class MeasurementModel(models.Model):
     height = MeasurementField(measurement=Distance,
-        blank=True,
-        null=True)
+                              blank=True,
+                              null=True)
 
 
 class ExampleSnapshotModel(models.Model):
