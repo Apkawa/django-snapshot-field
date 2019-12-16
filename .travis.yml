@@ -14,15 +14,14 @@ env:
   - DJANGO=3.0
   - DJANGO=dev
 
-jobs:
-  fast_finish: true
-  include:
-    - env: TOXENV=qa
-      python: 3.7
+fast_finish: true
+include:
+  - env: TOXENV=qa
+    python: 3.7
 
-  allow_failures:
-    - env: DJANGO=dev
-    - env: DJANGO=1.8
+allow_failures:
+  - env: DJANGO=dev
+  - env: DJANGO=1.8
 
 exclude:
   # Python/Django combinations that aren't officially supported
