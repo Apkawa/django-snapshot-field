@@ -18,27 +18,28 @@ matrix:
   fast_finish: true
   include:
     - env: TOXENV=qa
+      python: 3.7
 #    - env: TOXENV=docs
   allow_failures:
     - env: DJANGO=dev
 
-exclude:
-  # Python/Django combinations that aren't officially supported
-  - { env: DJANGO=1.11, python: 3.7 }
-  - { env: DJANGO=2.1, python: 2.7 }
-  - { env: DJANGO=2.1, python: 3.4 }
-  - { env: DJANGO=2.2, python: 2.7 }
-  - { env: DJANGO=2.2, python: 3.4 }
-  - { env: DJANGO=3.0, python: 2.7 }
-  - { env: DJANGO=3.0, python: 3.4 }
-  - { env: DJANGO=3.0, python: 3.5 }
+  exclude:
+    # Python/Django combinations that aren't officially supported
+    - { env: DJANGO=1.11, python: 3.7 }
+    - { env: DJANGO=2.1, python: 2.7 }
+    - { env: DJANGO=2.1, python: 3.4 }
+    - { env: DJANGO=2.2, python: 2.7 }
+    - { env: DJANGO=2.2, python: 3.4 }
+    - { env: DJANGO=3.0, python: 2.7 }
+    - { env: DJANGO=3.0, python: 3.4 }
+    - { env: DJANGO=3.0, python: 3.5 }
 
 
 install: pip install tox-travis python-coveralls codecov
 before_script:
   - |
     if [[ -z $TOXENV ]]; then
-      export TOXENV=py$(echo $TRAVIS_PYTHON_VERSION | sed -e 's/\.//g')-dj$DJANGO
+      export TOXENV=py$(echo $TRAVIS_PYTHON_VERSION | sed -e 's/\.//g')-django$DJANGO
     fi
   - echo $TOXENV
 script: tox -e $TOXENV --
