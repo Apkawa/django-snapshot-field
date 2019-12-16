@@ -22,12 +22,11 @@ class ExampleSnapshotModel(models.Model):
     )
 
 
-if not six.PY2:
-    from measurement.measures import Distance
-    from django_measurement.models import MeasurementField
+from measurement.measures import Distance
+from django_measurement.models import MeasurementField
 
 
-    class MeasurementModel(models.Model):
-        height = MeasurementField(measurement=Distance,
-                                  blank=True,
-                                  null=True)
+class MeasurementModel(models.Model):
+    height = MeasurementField(measurement=Distance,
+                              blank=True,
+                              null=True)

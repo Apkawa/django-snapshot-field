@@ -1,12 +1,8 @@
 # -*- coding: utf-8 -*-
-import pytest
-import six
 
 from snapshot_field.utils import serialize_object_json, deserialize_object_json
 
-SKIP_PY2 = pytest.mark.skipif(six.PY2, reason="Skip if python27")
 
-@SKIP_PY2
 def test_measurement_json_serialize_deserialize():
     from measurement.measures import Distance
     from tests.models import MeasurementModel
@@ -19,7 +15,6 @@ def test_measurement_json_serialize_deserialize():
     assert obj_snapshot.height == obj.height
 
 
-@SKIP_PY2
 def test_model_save():
     from measurement.measures import Distance
     from tests.models import MeasurementModel, ExampleSnapshotModel
