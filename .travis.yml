@@ -39,7 +39,7 @@ install: pip install tox-travis python-coveralls codecov
 before_script:
   - |
     if [[ -z $TOXENV ]]; then
-      export TOXENV=py$(echo $TRAVIS_PYTHON_VERSION | sed -e 's/\.//g')-django$DJANGO
+      export TOXENV=py$(echo $TRAVIS_PYTHON_VERSION | tr -d '.')-django$(echo $DJANGO|tr -d '.')
     fi
   - echo $TOXENV
 script: tox -e $TOXENV --
