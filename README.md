@@ -11,7 +11,7 @@ Project for merging different file types, as example easy thumbnail image and un
 # Installation
 
 ```bash
-    pip install django-snapshot-field
+pip install django-snapshot-field
 ```
 
 or from git
@@ -26,7 +26,7 @@ pip install -e git+https://githib.com/Apkawa/django-snapshot-field.git#egg=djang
 | Python<br/>Django |      2.7           |        3.5         |      3.6           |      3.7           |       3.8          |
 |:-----------------:|--------------------|--------------------|--------------------|--------------------|--------------------|
 | 1.8               | :heavy_check_mark: |       :x:          |      :x:           |       :x:          |      :x:           |
-| 1.11              | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| 1.11              | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |      :x:           |
 | 2.2               |       :x:          | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | 3.0               |       :x:          |       :x:          | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
