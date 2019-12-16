@@ -6,6 +6,7 @@ import copy
 import six
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.utils.encoding import smart_str
 
 from snapshot_field.utils import get_model_class, get_fields_from_model, get_translated_fields, \
     deserialize_object_json, serialize_object_json
@@ -234,7 +235,8 @@ class Proxy(object):
         for name in special_names:
             if hasattr(theclass, name):
                 namespace[name] = make_method(name)
-        return type("%s(%s)" % (cls.__name__, theclass.__name__), (cls,), namespace)
+        class_name = smart_str("%s(%s)" % (cls.__name__, theclass.__name__))
+        return type(class_name, (cls,), namespace)
 
     def __new__(cls, obj, *args, **kwargs):
         """

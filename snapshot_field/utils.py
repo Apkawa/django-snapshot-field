@@ -119,7 +119,7 @@ def noop_func(*a, **kw):
 
 
 def get_model_class(model):
-    if isinstance(model, six.text_type):
+    if isinstance(model, six.string_types):
         model = apps.get_model(*model.split('.'))
     return model
 

@@ -1,6 +1,5 @@
+import six
 from django.db import models
-from django_measurement.models import MeasurementField
-from measurement.measures import Distance
 
 from snapshot_field.fields import SnapshotModelField
 
@@ -16,14 +15,19 @@ class ExampleReference(models.Model):
     ref = models.ForeignKey(Example, on_delete=models.CASCADE)
 
 
-class MeasurementModel(models.Model):
-    height = MeasurementField(measurement=Distance,
-                              blank=True,
-                              null=True)
-
-
 class ExampleSnapshotModel(models.Model):
     snapshot = SnapshotModelField(null=True)
     snapshot_refs = SnapshotModelField(
         ['tests.Example', ['ExampleReference', {'refs': ['ref']}]], null=True
     )
+
+
+if not six.PY2:
+    from measurement.measures import Distance
+    from django_measurement.models import MeasurementField
+
+
+    class MeasurementModel(models.Model):
+        height = MeasurementField(measurement=Distance,
+                                  blank=True,
+                                  null=True)

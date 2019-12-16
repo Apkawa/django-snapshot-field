@@ -1,7 +1,11 @@
 import json
 
-from snapshot_field.utils import serialize_object, deserialize_object, serialize_object_json, \
+from snapshot_field.utils import (
+    serialize_object,
+    deserialize_object,
+    serialize_object_json,
     deserialize_object_json
+)
 from tests.models import Example, ExampleReference
 
 
