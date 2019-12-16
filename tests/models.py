@@ -1,5 +1,6 @@
-import six
 from django.db import models
+from measurement.measures import Distance
+from django_measurement.models import MeasurementField
 
 from snapshot_field.fields import SnapshotModelField
 
@@ -20,10 +21,6 @@ class ExampleSnapshotModel(models.Model):
     snapshot_refs = SnapshotModelField(
         ['tests.Example', ['ExampleReference', {'refs': ['ref']}]], null=True
     )
-
-
-from measurement.measures import Distance
-from django_measurement.models import MeasurementField
 
 
 class MeasurementModel(models.Model):

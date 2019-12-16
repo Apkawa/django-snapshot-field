@@ -1,17 +1,17 @@
+[![PyPi](https://img.shields.io/pypi/v/django-snapshot-field.svg)](https://pypi.python.org/pypi/django-snapshot-field)
 [![Build Status](https://travis-ci.org/Apkawa/django-snapshot-field.svg?branch=master)](https://travis-ci.org/Apkawa/django-snapshot-field)
-[![Coverage Status](https://coveralls.io/repos/github/Apkawa/django-snapshot-field/badge.svg)](https://coveralls.io/github/Apkawa/django-snapshot-field)
-[![codecov](https://codecov.io/gh/Apkawa/django-snapshot-field/branch/master/graph/badge.svg)](https://codecov.io/gh/Apkawa/django-snapshot-field)
+[![Codecov](https://codecov.io/gh/Apkawa/django-snapshot-field/branch/master/graph/badge.svg)](https://codecov.io/gh/Apkawa/django-snapshot-field)
 [![Requirements Status](https://requires.io/github/Apkawa/django-snapshot-field/requirements.svg?branch=master)](https://requires.io/github/Apkawa/django-snapshot-field/requirements/?branch=master)
 [![PyUP](https://pyup.io/repos/github/Apkawa/django-snapshot-field/shield.svg)](https://pyup.io/repos/github/Apkawa/django-snapshot-field)
-[![PyPI](https://img.shields.io/pypi/pyversions/django-snapshot-field.svg)]()
+[![PyPI](https://img.shields.io/pypi/pyversions/django-snapshot-field.svg)](https://pypi.python.org/pypi/django-snapshot-field)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 Project for merging different file types, as example easy thumbnail image and unpacking archive in one field
 
 # Installation
 
 ```bash
-pip install django-snapshot-field
-
+    pip install django-snapshot-field
 ```
 
 or from git
@@ -61,16 +61,26 @@ pip install -r requirements.txt
 
 ## run tests
 
+by pip and venv
 ```bash
 pip install -r requirements.txt
 pytest
 tox
 ```
 
+or pipenv
+
+```bash
+pipenv install -r requirements.txt
+pipenv run - pytest
+pipenv run - tox
+
+```
+
 ## publish pypi
 
 ```bash
-python setup.py sdist upload -r pypi
+python setup.py publish
 ```
 
 

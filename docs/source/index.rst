@@ -4,7 +4,7 @@ django-snapshot-field documentation!
 .. toctree::
    :maxdepth: 3
    :caption:
-      example.rst
+      ../../README.md
 
 
 Indices and tables
