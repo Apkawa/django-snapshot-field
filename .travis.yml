@@ -14,22 +14,17 @@ env:
   - DJANGO=3.0
   - DJANGO=dev
 
-matrix:
-  allow_failures:
-    - env: DJANGO=dev
-    - env: DJANGO=1.8
 
-  exclude:
-    # Python/Django combinations that aren't officially supported
-    - { env: DJANGO=1.11, python: 3.7 }
-    - { env: DJANGO=2.1, python: 2.7 }
-    - { env: DJANGO=2.1, python: 3.4 }
-    - { env: DJANGO=2.2, python: 2.7 }
-    - { env: DJANGO=2.2, python: 3.4 }
-    - { env: DJANGO=3.0, python: 2.7 }
-    - { env: DJANGO=3.0, python: 3.4 }
-    - { env: DJANGO=3.0, python: 3.5 }
-
+exclude:
+  # Python/Django combinations that aren't officially supported
+  - { env: DJANGO=1.11, python: 3.7 }
+  - { env: DJANGO=2.1, python: 2.7 }
+  - { env: DJANGO=2.1, python: 3.4 }
+  - { env: DJANGO=2.2, python: 2.7 }
+  - { env: DJANGO=2.2, python: 3.4 }
+  - { env: DJANGO=3.0, python: 2.7 }
+  - { env: DJANGO=3.0, python: 3.4 }
+  - { env: DJANGO=3.0, python: 3.5 }
 
 
 install: pip install tox-travis python-coveralls codecov
