@@ -4,6 +4,6 @@ from . import monkey  # noqa
 
 __all__ = ['SnapshotModelField']
 
-__version__ = '0.1.1'
+__version__ = '0.1.2'
 
 default_app_config = 'snapshot_field.apps.SnapshotFieldConfig'
