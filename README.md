@@ -23,14 +23,14 @@ pip install -e git+https://githib.com/Apkawa/django-snapshot-field.git#egg=djang
 ## Django and python version compatibles
 
 
-| Python<br/>Django |  2.7  |  3.5  |  3.6  |  3.7  |  3.8  |
-|:-----------------:|-------|-------|-------|-------|-------|
-| 1.8               |  [x]  |       |       |       |       |
-| 1.11              |  [x]  |  [x]  |  [x]  |  [x]  |  [x]  |
-| 2.2               |       |  [x]  |  [x]  |  [x]  |  [x]  |
-| 3.0               |       |       |  [x]  |  [x]  |  [x]  |
+| Python<br/>Django |      2.7           |        3.5         |      3.6           |      3.7           |       3.8          |
+|:-----------------:|--------------------|--------------------|--------------------|--------------------|--------------------|
+| 1.8               | :heavy_check_mark: |       :x:          |      :x:           |       :x:          |      :x:           |
+| 1.11              | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| 2.2               |       :x:          | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| 3.0               |       :x:          |       :x:          | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
-
+:bangbang: Support Python 2.7 will be removed after 2020-01-01
 
 # Usage
 
