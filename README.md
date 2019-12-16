@@ -20,12 +20,16 @@ or from git
 pip install -e git+https://githib.com/Apkawa/django-snapshot-field.git#egg=django-snapshot-field
 ```
 
-## Django and python version
+## Django and python version compatibles
 
-* python-2.7 - django>=1.8,<=1.11
-* python-3.4 - django>=1.8,<=1.11
-* python-3.5 - django>=1.8,<=1.11
-* python-3.6 - django>=1.11
+
+| Python<br/>Django |  2.7  |  3.5  |  3.6  |  3.7  |  3.8  |
+|:-----------------:|-------|-------|-------|-------|-------|
+| 1.8               |  [x]  |       |       |       |       |
+| 1.11              |  [x]  |  [x]  |  [x]  |  [x]  |  [x]  |
+| 2.2               |       |  [x]  |  [x]  |  [x]  |  [x]  |
+| 3.0               |       |       |  [x]  |  [x]  |  [x]  |
+
 
 
 # Usage
