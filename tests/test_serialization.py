@@ -35,9 +35,34 @@ def test_json_serialize_deserialize():
 
     result = serialize_object_json(obj_ref, refs=['ref'])
     obj_snapshot = deserialize_object_json(result)
+
     assert obj_ref.id == obj_snapshot.id
     assert obj_ref.name == obj_snapshot.name
     assert obj_ref.ref.name == obj.name
+
+
+def test_json_serialize_deserialize_deleted_obj():
+    obj = Example.objects.create(name='test_name')
+    obj_ref = ExampleReference.objects.create(name='refname', ref=obj)
+
+    result = serialize_object_json(obj_ref, refs=['ref'])
+
+    obj.delete()
+    obj_ref.delete()
+    expect_data = {
+        "model": "tests.examplereference", "pk": 1,
+        "fields": {"name": "refname", "long_name": "", "ref": 1}, "refs": {
+            "ref": {"model": "tests.example", "pk": 1, "fields": {"name": "test_name"}, "refs": {}}
+        }
+    }
+
+    assert json.loads(result) == expect_data
+
+    obj_snapshot = deserialize_object_json(result)
+
+    assert obj_ref.name == obj_snapshot.name
+    assert obj_ref.ref.name == obj.name
+
 
 
 def test_json_serialize_deserialize_with_non_existed_fields():

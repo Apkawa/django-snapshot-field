@@ -48,4 +48,22 @@ class ExampleSnapshotModel(models.Model):
     snapshot_refs = SnapshotModelField(
         ['tests.Example', ['ExampleReference', {'fields': ['name', 'ref'], 'refs': ['ref']}]]
     )
+
+    
+obj = Example.objects.create(name='test_name')
+obj_ref = ExampleReference.objects.create(name='refname', ref=obj)
+
+snap = ExampleSnapshotModel.objects.create(snapshot=obj, snapshot_refs=obj_ref)
+
+assert snap.snapshot.name == obj.name
+assert snap.snapshot_refs.name == obj_ref.name
+assert snap.snapshot_refs.ref.name == obj.name
+
+obj.delete()
+obj_ref.delete()
+snap.refresh_from_db()
+
+assert snap.snapshot.name == obj.name
+assert snap.snapshot_refs.name == obj_ref.name
+assert snap.snapshot_refs.ref.name == obj.name
 ```

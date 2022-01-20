@@ -102,7 +102,7 @@ def deserialize_object(value, serializer_kwargs=None):
     for name, ref_data in refs.items():
         sub_obj = deserialize_object(ref_data, serializer_kwargs)
         obj.__dict__[name] = sub_obj
-        # setattr(obj, name, sub_obj)
+        obj._state.fields_cache[name] = sub_obj
     return obj
 
 
