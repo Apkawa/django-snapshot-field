@@ -28,7 +28,6 @@ pip install -e git+https://githib.com/Apkawa/django-snapshot-field.git#egg=djang
 |        3.2        | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 |        4.0        | :x:                | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
-:bangbang: Support Python 2.7 will be removed after 2020-01-01
 
 # Usage
 
@@ -50,43 +49,3 @@ class ExampleSnapshotModel(models.Model):
         ['tests.Example', ['ExampleReference', {'fields': ['name', 'ref'], 'refs': ['ref']}]]
     )
 ```
-
-# Contributing
-
-## run example app
-
-```bash
-pip install -r requirements.txt
-./test/manage.py migrate
-./test/manage.py runserver
-```
-
-## run tests
-
-by pip and venv
-```bash
-pip install -r requirements.txt
-pytest
-tox
-```
-
-or pipenv
-
-```bash
-pipenv install -r requirements.txt
-pipenv run - pytest
-pipenv run - tox
-
-```
-
-## publish pypi
-
-```bash
-python setup.py publish
-```
-
-
-
-
-
-

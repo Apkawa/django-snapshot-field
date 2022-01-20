@@ -1,6 +1,5 @@
 from django.db import models
-from measurement.measures import Distance
-from django_measurement.models import MeasurementField
+
 
 from snapshot_field.fields import SnapshotModelField
 
@@ -23,7 +22,14 @@ class ExampleSnapshotModel(models.Model):
     )
 
 
-class MeasurementModel(models.Model):
-    height = MeasurementField(measurement=Distance,
-                              blank=True,
-                              null=True)
+try:
+    from measurement.measures import Distance
+    from django_measurement.models import MeasurementField
+
+    class MeasurementModel(models.Model):
+        height = MeasurementField(measurement=Distance,
+                                  blank=True,
+                                  null=True)
+
+except ImportError:
+    pass

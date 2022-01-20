@@ -33,15 +33,23 @@ jobs:
           - python-version: 3.7
             toxenv: django111
             experimental: true
-
           - toxenv: django32
             python-version: "3.11.0-alpha - 3.11"
             experimental: true
-
           - python-version: "pypy-3.7"
             toxenv: django32
             experimental: true
 
+          - python-version: 3.9
+            toxenv: django22-measurement
+            experimental: false
+          - python-version: 3.9
+            toxenv: django32-measurement
+            experimental: false
+          # django-measurement no working with django40
+          - python-version: 3.9
+            toxenv: django40-measurement
+            experimental: true
 
           - toxenv: flake8
             python-version: 3.7

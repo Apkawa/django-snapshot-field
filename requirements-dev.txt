@@ -1,20 +1,19 @@
 -e .
-django-measurement>3.0
 
 # Build
-bumpversion==0.5.3
-wheel==0.33.6
-tox==3.14.2
+bumpversion
+wheel
+tox
 twine
 setuptools>=42
 
 # Test
-pytest>=4,<5
-pytest-django==3.7.0
-pytest-pythonpath==0.7.3
-pytest-flake8==1.0.4
-pytest-cov==2.8.1
-mock==3.0.5
+pytest
+pytest-django
+pytest-pythonpath
+pytest-flake8
+pytest-cov
+mock
 
 # Docs
 recommonmark

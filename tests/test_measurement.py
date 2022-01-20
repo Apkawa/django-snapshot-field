@@ -1,10 +1,16 @@
 # -*- coding: utf-8 -*-
+import pytest as pytest
 
 from snapshot_field.utils import serialize_object_json, deserialize_object_json
 
-
-def test_measurement_json_serialize_deserialize():
+try:
     from measurement.measures import Distance
+except ImportError:
+    Distance = None
+
+
+@pytest.mark.skipif(not Distance, reason="django-measurement not installed")
+def test_measurement_json_serialize_deserialize():
     from tests.models import MeasurementModel
 
     obj = MeasurementModel.objects.create(height=Distance(cm=20.0))
@@ -15,8 +21,8 @@ def test_measurement_json_serialize_deserialize():
     assert obj_snapshot.height == obj.height
 
 
+@pytest.mark.skipif(not Distance, reason="django-measurement not installed")
 def test_model_save():
-    from measurement.measures import Distance
     from tests.models import MeasurementModel, ExampleSnapshotModel
 
     obj = MeasurementModel.objects.create(height=Distance(cm=12.5))
