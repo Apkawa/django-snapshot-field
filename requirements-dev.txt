@@ -1,4 +1,6 @@
 -e .
+django-measurement>3.0
+
 # Build
 bumpversion==0.5.3
 wheel==0.33.6

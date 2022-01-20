@@ -1,5 +1,6 @@
 [MASTER]
-load-plugins=pylint_common, pylint_django
+load-plugins=pylint_common,pylint_django
+django-settings-module=tests.settings.test
 
 [FORMAT]
 max-line-length=100
