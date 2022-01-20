@@ -34,13 +34,13 @@ def build_field_map(fields):
     """
     field_map = dict()
     for f in fields:
-        f_parts = f.split('__')
+        f_parts = f.split("__")
         p_f = f_parts[0]
         s_f = f_parts[1:]
         if p_f not in field_map:
             field_map[p_f] = set()
         if s_f:
-            field_map[p_f].add('__'.join(s_f))
+            field_map[p_f].add("__".join(s_f))
     return field_map
 
 
@@ -48,10 +48,13 @@ def serialize_object(obj, fields=None, refs=None):
     field_map = build_field_map(fields=fields or get_fields_from_model(obj))
     refs_map = build_field_map(fields=refs or [])
     _fields = list(field_map.keys())
-    ser_obj = serializers.serialize('python', [obj], fields=_fields)[0]
+    ser_obj = serializers.serialize("python", [obj], fields=_fields)[0]
 
-    fk_fields = {f.name for f in obj._meta.fields if
-                 isinstance(f, (models.ForeignKey, models.OneToOneField))}
+    fk_fields = {
+        f.name
+        for f in obj._meta.fields
+        if isinstance(f, (models.ForeignKey, models.OneToOneField))
+    }
     refs = {}
     for f in fk_fields:
         if not fields or f in fields and f in refs_map:
@@ -61,21 +64,23 @@ def serialize_object(obj, fields=None, refs=None):
             if n_obj:
                 refs[f] = serialize_object(n_obj, fields=sub_fields, refs=sub_refs)
 
-    ser_obj['refs'] = refs
+    ser_obj["refs"] = refs
     return ser_obj
 
 
 def serialize_object_json(obj, fields=None, refs=None):
-    return json.dumps(serialize_object(obj, fields=fields, refs=refs), cls=DjangoJSONEncoder)
+    return json.dumps(
+        serialize_object(obj, fields=fields, refs=refs), cls=DjangoJSONEncoder
+    )
 
 
 def prepare_object(value):
     # Fix and prepare object before deserialization
-    _Model = _get_model(value['model'])
+    _Model = _get_model(value["model"])
     fields = get_fields_from_model(_Model)
-    for _field in list(value['fields'].keys()):
+    for _field in list(value["fields"].keys()):
         if _field not in fields:
-            del value['fields'][_field]
+            del value["fields"][_field]
     return value
 
 
@@ -83,8 +88,7 @@ def _deserialize_object(value, serializer_kwargs=None):
     serializer_kwargs = serializer_kwargs or {}
     try:
         value = prepare_object(value)
-        deser = list(serializers.deserialize(
-            'python', [value], **serializer_kwargs))[0]
+        deser = list(serializers.deserialize("python", [value], **serializer_kwargs))[0]
         instance = deser.object
         instance.save_base = noop_func
         instance.save = noop_func
@@ -97,12 +101,17 @@ def _deserialize_object(value, serializer_kwargs=None):
 def deserialize_object(value, serializer_kwargs=None):
     if isinstance(value, list):
         return [deserialize_object(v) for v in value]
-    refs = value.pop('refs', None) or {}
+    refs = value.pop("refs", None) or {}
     obj = _deserialize_object(value, serializer_kwargs)
     for name, ref_data in refs.items():
         sub_obj = deserialize_object(ref_data, serializer_kwargs)
         obj.__dict__[name] = sub_obj
-        obj._state.fields_cache[name] = sub_obj
+        if hasattr(obj._state, "fields_cache"):
+            obj._state.fields_cache[name] = sub_obj
+        else:
+            # Backward compatibly for django 1.11
+            field = obj._meta.get_field(name)
+            obj.__dict__[field.get_cache_name()] = sub_obj
     return obj
 
 
@@ -120,7 +129,7 @@ def noop_func(*a, **kw):
 
 def get_model_class(model):
     if isinstance(model, six.string_types):
-        model = apps.get_model(*model.split('.'))
+        model = apps.get_model(*model.split("."))
     return model
 
 
@@ -147,7 +156,5 @@ def get_translated_fields(model, fields):
         if field_name not in fields:
             continue
         for lang, _s in settings.LANGUAGES:
-            trans_fields[field_name].append(
-                build_localized_fieldname(field_name, lang)
-            )
+            trans_fields[field_name].append(build_localized_fieldname(field_name, lang))
     return dict(trans_fields)
