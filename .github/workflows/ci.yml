@@ -33,13 +33,13 @@ jobs:
             experimental: true
 
           - toxenv: flake8
-            python-version: 3.7
+            python-version: 3.11
             experimental: false
           - toxenv: mypy
-            python-version: 3.7
+            python-version: 3.11
             experimental: true
           - toxenv: pylint
-            python-version: 3.7
+            python-version: 3.11
             experimental: true
 
 
