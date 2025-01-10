@@ -4,7 +4,6 @@
 bumpversion
 wheel
 tox
-twine
 setuptools>=42
 
 # Test
@@ -19,3 +18,7 @@ mock
 recommonmark
 Sphinx
 alabaster
+
+
+# hooks
+pre-commit

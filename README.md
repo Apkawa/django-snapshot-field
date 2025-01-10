@@ -1,11 +1,10 @@
-[![Build Status](https://travis-ci.org/Apkawa/django-snapshot-field.svg?branch=master)](https://travis-ci.org/Apkawa/django-snapshot-field)
-[![Codecov](https://codecov.io/gh/Apkawa/django-snapshot-field/branch/master/graph/badge.svg)](https://codecov.io/gh/Apkawa/django-snapshot-field)
+[![ci](https://github.com/Apkawa/django-snapshot-field/actions/workflows/ci.yml/badge.svg)](https://github.com/Apkawa/django-snapshot-field/actions/workflows/ci.yml)
 
 [![PyPi](https://img.shields.io/pypi/v/django-snapshot-field.svg)](https://pypi.python.org/pypi/django-snapshot-field)
 [![PyPI](https://img.shields.io/pypi/pyversions/django-snapshot-field.svg)](https://pypi.python.org/pypi/django-snapshot-field)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-Project for merging different file types, as example easy thumbnail image and unpacking archive in one field
+A field in a model that stores a snapshot of a model object and retrieves it as a read-only model object
 
 # Installation
 
@@ -22,11 +21,13 @@ pip install -e git+https://githib.com/Apkawa/django-snapshot-field.git#egg=djang
 ## Django and python version compatibles
 
 
-| Python<br/>Django | 3.7                |       3.8          | 3.9                | 3.10               |
-|:-----------------:|--------------------|--------------------|--------------------|--------------------|
-|        2.2        | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-|        3.2        | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-|        4.0        | :x:                | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| Python<br/>Django | 3.8 | 3.9 | 3.10 | 3.11 | 3.12 | 3.13 |
+|:-----------------:|-----|----|------|------|------|------|
+|        4.2        | ✅   | ✅  | ✅    | ✅    | ✅    | ✅    |
+|        5.0        | ❌   | ❌   | ✅    | ✅    | ✅    | ✅    |
+|        5.1        | ❌   | ❌   | ✅    | ✅    | ✅    | ✅    |
+|        5.2        | ❌   | ❌   | ✅    | ✅    | ✅    | ✅    |
+
 
 
 # Usage
@@ -49,7 +50,7 @@ class ExampleSnapshotModel(models.Model):
         ['tests.Example', ['ExampleReference', {'fields': ['name', 'ref'], 'refs': ['ref']}]]
     )
 
-    
+
 obj = Example.objects.create(name='test_name')
 obj_ref = ExampleReference.objects.create(name='refname', ref=obj)
 
